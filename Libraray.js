@@ -38,11 +38,11 @@ class User{
             this.booksCheckedOut.push(book)
             //now toggle the book isavailable to false
             book.toggleAvailability();
-            console.log(`${this.name} has chackedOut the ${book.title}`)
+            alert(`${this.name} has chackedOut the ${book.title}`)
         }
 
         else{
-            console.log(`${book.title} has checked out`)
+            alert(`${book.title} has checked out`)
         }
     }
 
@@ -55,11 +55,11 @@ class User{
             //if the book is found then remove it from the array
            this.booksCheckedOut.splice(bookIndex, 1)
            book.toggleAvailability();
-           console.log(`${this.name} has returned the "${book.title}"`)
+           alert(`${this.name} has returned the "${book.title}"`)
         }
 
         else{
-            console.log(`${this.name} does not have "${book.title} checked out`)
+            alert(`${this.name} does not have "${book.title} checked out`)
         }
     }
 
@@ -153,10 +153,26 @@ addBookBtn.addEventListener('click',()=>{
     const author = document.getElementById('bookAuthor').value
     const ISBN = document.getElementById('bookISBN').value
 
-    if(title && author && ISBN){
+    const existingBook = library.some(lib=>lib.ISBN === ISBN)
+
+    if(existingBook){
+        alert('already a book available with same ISBN')
+    }
+
+    else if(title && author && ISBN){
         const newBook = new Book(title,author,ISBN)
         library.push(newBook)
         displayBooks();
+        alert('book add succesfully')
+
+        document.getElementById('bookTitle').value=''
+        document.getElementById('bookAuthor').value=''
+        document.getElementById('bookISBN').value=''
+
+
+    }
+    else{
+        alert('all field required')
     }
 
 });
@@ -166,10 +182,23 @@ registerUserBtn.addEventListener('click',()=>{
     const name = document.getElementById('userName').value
     const userID = document.getElementById('userID').value
 
-    if(name && userID){
+    const existingUser = users.some(user=>user.userID === userID)
+
+    if(existingUser){
+        alert('user already exist with same id')
+    }
+
+     else if(name && userID){
         const newUser = new User(name,userID)
         users.push(newUser)
         displayUsers();
+        alert('user added succefully');
+
+        document.getElementById('userName').value=''
+        document.getElementById('userID').value=''
+     }
+     else{
+        alert('all field required')
     }
 })
 
@@ -187,7 +216,7 @@ checkOutBtn.addEventListener('click',()=>{
        displayUsers();
     }
     else{
-        console.log('book not found')
+        alert('book not found')
     }
 })
 
@@ -206,7 +235,7 @@ returnBookBtn.addEventListener('click',()=>{
     }
 
     else{
-        console.log("user or book not found")
+        alert("user or book not found")
     }
 });
 
